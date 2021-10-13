@@ -1,0 +1,17 @@
+{
+  "name": "@cloud-technology/health-check",
+  "version": "0.0.1",
+  "description": "Standard Library, HTTPs Health API Endpoint",
+  "main": "Index.js",
+  "scripts": {
+    "start": "node Index.js",
+    "generate-pfx": "bash .ci/Generate-PFX.Bash Development"
+  },
+  "engines": { "node": "^16.x", "npm": "^7.x" },
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "exports": ["./index.js"],
+  "maintainers": [
+    "Jacob B. Sanders"
+  ]
+}
