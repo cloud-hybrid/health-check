@@ -34,6 +34,7 @@ const $ = {
 
 HTTPs.createServer({...$, enableTrace: true }, (request, response) => {
     response.statusMessage = "Successful";
+
     response.setHeader("Server", "@Nexus");
     response.setHeader("Content-Type", "Application/JSON");
     response.writeHead(200);
