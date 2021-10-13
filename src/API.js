@@ -53,7 +53,8 @@ const TLS = {
             Method: request.method,
             Hostname: OS.hostname(),
             Endpoint: request.url,
-            Version: Version
+            Version: Version,
+            Package: (Process.env.debug) ? Package : "Disabled"
         }, null, 4));
     }).listen({
         host: "0.0.0.0",
