@@ -40,8 +40,6 @@ const TLS = {
         ? { ... TLS, enableTrace: true } : {}, (
             request, response
     ) => {
-        response.setDefaultEncoding("UTF-8");
-
         response.statusMessage = "Successful";
 
         response.setHeader("Server", "@Nexus");
