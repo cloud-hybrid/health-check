@@ -58,7 +58,7 @@ const TLS = {
         }, null, 4));
     }).listen({
         host: "0.0.0.0",
-        port: (Index === 0) ? 8000 : 8443,
+        port: (Index === 0) ? 8080 : 8443,
         // path: "/api/internal/health-check"
     }).on("close", (event) => {
         console.debug(JSON.stringify(event, null, 4));
@@ -66,7 +66,7 @@ const TLS = {
         console.warn(JSON.stringify(event, null, 4));
     }).on("listening", () => {
         (Index === 0) ? Process.stdout.write(
-            " - HTTP: http://localhost:8000" + "\n"
+            " - HTTP: http://localhost:8080" + "\n"
         ) : Process.stdout.write(
             " - HTTPs: https://localhost:8443" + "\n"
         );

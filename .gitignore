@@ -104,3 +104,5 @@ dist
 
 .DS_Store
 .idea
+
+build

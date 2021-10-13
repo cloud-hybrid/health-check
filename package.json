@@ -5,6 +5,10 @@
     "main": "Index.js",
     "scripts": {
         "start": "node Index.js",
+        "process": "lsof -nP -iTCP -sTCP:LISTEN | grep 8443",
+        "daemon": "daemon/build/Health-Check-Daemon",
+        "compile": "make",
+        "destroy": "make clean",
         "generate-pfx": "bash .ci/PFX.Source Development"
     },
     "engines": { "node": "^16.x", "npm": "^7.x" },
