@@ -18,7 +18,7 @@ const IP = HTTPs.get($, (response) => {
 
         const Output = Buffer.toString("UTF-8", Allocation - 1);
 
-        console.debug(" - IP" + ":", Output);
+        console.debug("IP" + ":", Output);
     });
 }).on("error", function(e) {
     console.error("Error: " + e.message);

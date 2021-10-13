@@ -1,11 +1,11 @@
 import * as FS from "fs";
 import * as OS from "os";
 import * as Path from "path";
+import * as HTTP from "http";
 import * as HTTPs from "https";
 import * as Process from "process";
 import * as Assertions from "assert";
 
-const Port = 8000;
 const Package = await import("./Package.js").then(
     (Module) => Module.default()
 );
@@ -24,7 +24,7 @@ Assertions.ok(Evaluate(), "Assertion Failure: `package.json` Not Found");
 
 const Index = (variable) => (variable) ? Process.env[variable] : "";
 
-const $ = {
+const TLS = {
     pfx: FS.readFileSync(
         [Process.cwd(), ".ci", "Development.pfx"].join(
             Path.sep
@@ -32,33 +32,43 @@ const $ = {
     ), passphrase: Index()
 };
 
-(Process.env.environment === "Production") ? Assertions.ok($.passphrase, "Passphrase Cannot be Undefined")
-    : Assertions.ok($.pfx, "Context Must be Secured");
+(Process.env.environment === "Production") ? Assertions.ok(TLS.passphrase, "Passphrase Cannot be Undefined")
+    : Assertions.ok(TLS.pfx, "Context Must be Secured");
 
-HTTPs.createServer({...$, enableTrace: true }, (request, response) => {
-    response.statusMessage = "Successful";
+[HTTP, HTTPs].forEach(
+    (Server, Index) => Server.createServer((Index === 1)
+        ? { ... TLS, enableTrace: true } : {}, (
+            request, response
+    ) => {
+        response.statusMessage = "Successful";
 
-    response.setHeader("Server", "@Nexus");
-    response.setHeader("Content-Type", "Application/JSON");
-    response.writeHead(200);
+        response.setHeader("Server", "@Nexus");
+        response.setHeader("Content-Type", "Application/JSON");
+        response.writeHead(200);
 
-    response.end(JSON.stringify({
-        Status: 200,
-        Message: "Successful",
-        Uptime: Process.uptime(),
-        Method: request.method,
-        Hostname: OS.hostname(),
-        Endpoint: request.url,
-        Version: Version,
-        Package: Package
-    }, null, 4));
-}).listen(Port).on("close", (event) => {
-    console.debug(JSON.stringify(event, null, 4));
-}).on("clientError", (event) => {
-    console.warn(JSON.stringify(event, null, 4));
-}).on("listening", () => {
-    Process.stdout.write("Local API Endpoint(s):" + "\n" +
-        " - https://localhost:" + String(Port)
-        + "\n"
-    );
-});
+        response.end(JSON.stringify({
+            Status: 200,
+            Message: "Successful",
+            Uptime: Process.uptime(),
+            Method: request.method,
+            Hostname: OS.hostname(),
+            Endpoint: request.url,
+            Version: Version,
+            Package: Package
+        }, null, 4));
+    }).listen({
+        host: "0.0.0.0",
+        port: (Index === 0) ? 8000 : 8443,
+        path: "/api/internal/health-check"
+    }).on("close", (event) => {
+        console.debug(JSON.stringify(event, null, 4));
+    }).on("clientError", (event) => {
+        console.warn(JSON.stringify(event, null, 4));
+    }).on("listening", () => {
+        (Index === 0) ? Process.stdout.write(
+            " - HTTP: http://localhost:8000" + "\n"
+        ) : Process.stdout.write(
+            " - HTTPs: https://localhost:8443" + "\n"
+        );
+    })
+);
