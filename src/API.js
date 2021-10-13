@@ -9,9 +9,12 @@ const Port = 8000;
 const Package = await import("./Package.js").then(
     (Module) => Module.default()
 );
+
 const Version = await import("./Version.js").then(
     (Module) => Module.default()
 );
+
+await import("./IP.js").then((Module) => Module.default);
 
 const CWD = Process.cwd();
 
@@ -49,7 +52,6 @@ HTTPs.createServer({...$, enableTrace: true }, (request, response) => {
         Version: Version,
         Package: Package
     }, null, 4));
-
 }).listen(Port).on("close", (event) => {
     console.debug(JSON.stringify(event, null, 4));
 }).on("clientError", (event) => {
