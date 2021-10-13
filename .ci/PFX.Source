@@ -18,6 +18,7 @@ sudo security -v add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.k
 # ... certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n "${1} Certificate" -i "${1}".crt
 
 ### Linux 2
-# ... sudo yum install -y libnss3-tools
-# ... pk12util -d "sql:${HOME}/.pki/nssdb" -i "${1}.pfx"
-# ... certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n "${1} Certificate" -i "${1}".crt
+# ... mkdir -p $HOME/.pki/nssdb
+# ... certutil -d $HOME/.pki/nssdb -N
+# ... pk12util -d "sql:${HOME}/.pki/nssdb" -i "${PWD}/.ci/${1}.pfx"
+# ... certutil -d "sql:$HOME/.pki/nssdb" -A -t "P,," -n "${PWD}/.ci/${1} Certificate" -i "${PWD}/.ci/${1}".crt
