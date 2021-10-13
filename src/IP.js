@@ -1,4 +1,5 @@
 import * as HTTPs from "https";
+import * as Process from "process";
 
 const $ = {
     host: "ipv4bot.whatismyipaddress.com",
@@ -18,7 +19,8 @@ const IP = HTTPs.get($, (response) => {
 
         const Output = Buffer.toString("UTF-8", Allocation - 1);
 
-        console.debug("IP" + ":", Output);
+        Process.stdout.write(" - Public (HTTP): " + "http://" + Output + ":8000" + "\n");
+        Process.stdout.write(" - Public (HTTPs): " + "https://" + Output + ":8443" + "\n");
     });
 }).on("error", function(e) {
     console.error("Error: " + e.message);

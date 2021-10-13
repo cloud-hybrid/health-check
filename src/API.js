@@ -59,7 +59,7 @@ const TLS = {
     }).listen({
         host: "0.0.0.0",
         port: (Index === 0) ? 8000 : 8443,
-        path: "/api/internal/health-check"
+        // path: "/api/internal/health-check"
     }).on("close", (event) => {
         console.debug(JSON.stringify(event, null, 4));
     }).on("clientError", (event) => {
