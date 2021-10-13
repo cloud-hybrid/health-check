@@ -51,7 +51,7 @@ const TLS = {
             Message: "Successful",
             Uptime: Process.uptime(),
             Method: request.method,
-            Hostname: OS.hostname(),
+            Hostname: response.socket.address(),
             Endpoint: request.url,
             Version: Version,
             Debug: (Process.env.debug) ? Package : "Disabled"
