@@ -1,5 +1,4 @@
 import * as FS from "fs";
-import * as OS from "os";
 import * as Path from "path";
 import * as HTTP from "http";
 import * as HTTPs from "https";
