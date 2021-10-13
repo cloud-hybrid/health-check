@@ -41,7 +41,7 @@ HTTPs.createServer({...$, enableTrace: true }, (request, response) => {
     response.end(JSON.stringify({
         Status: 200,
         Message: "Successful",
-        Uptime: process.uptime(),
+        Uptime: Process.uptime(),
         Method: request.method,
         Hostname: OS.hostname(),
         Endpoint: request.url,
