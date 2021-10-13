@@ -40,10 +40,13 @@ const TLS = {
         ? { ... TLS, enableTrace: true } : {}, (
             request, response
     ) => {
+        response.setDefaultEncoding("UTF-8");
+
         response.statusMessage = "Successful";
 
         response.setHeader("Server", "@Nexus");
         response.setHeader("Content-Type", "Application/JSON");
+
         response.writeHead(200);
 
         response.end(JSON.stringify({
@@ -52,7 +55,6 @@ const TLS = {
             Uptime: Process.uptime(),
             Method: request.method,
             Server: response.socket.address(),
-            Client: request.socket.address(),
             Endpoint: request.url,
             Version: Version,
             Debug: (Process.env.debug) ? Package : "Disabled"
