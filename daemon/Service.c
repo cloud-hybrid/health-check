@@ -1,7 +1,3 @@
-/*
-    ...
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -17,34 +13,28 @@
 #endif
 
 static void skeleton(char * cwd) {
+    /*****
+    Daemon Management ABI
+    
+    - Commands are ran sequentially.
+    - Be mindful of fork(), signal(), & exit() order.
+    */
+    
     pid_t pid;
 
     /* Fork off the parent process */
     pid = fork();
 
     /* An error occurred */
-    if (pid < 0) {
-        printf("PID Fork Error\n");
-
-        exit(EXIT_FAILURE);
-    }
+    if (pid < 0) exit(EXIT_FAILURE);
 
     /* Success: Let the parent terminate */
-    if (pid > 0) {
-        printf("PID Fork Successful\n");
+    if (pid > 0) exit(EXIT_SUCCESS);
 
-        exit(EXIT_SUCCESS);
-    };
-
-    /* On success: The child process becomes session leader */
-    if (setsid() < 0) {
-        printf("Session Election Failure\n");
-
-        exit(EXIT_FAILURE);
-    };
+    /* On success, the child process becomes session leader */
+    if (setsid() < 0) exit(EXIT_FAILURE);
 
     /* Catch, ignore and handle signals */
-    //TODO: Implement a working signal handler */
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
 
@@ -52,11 +42,7 @@ static void skeleton(char * cwd) {
     pid = fork();
 
     /* An error occurred */
-    if (pid < 0) {
-        printf("Error\n");
-
-        exit(EXIT_FAILURE);
-    }
+    if (pid < 0) exit(EXIT_FAILURE);
 
     /* Success: Let the parent terminate */
     if (pid > 0) exit(EXIT_SUCCESS);
@@ -69,9 +55,7 @@ static void skeleton(char * cwd) {
     chdir(cwd);
 
     /* Close all open file descriptors */
-    for (int x = sysconf(_SC_OPEN_MAX); x >= 0; x--) {
-        close (x);
-    }
+    for (int x = sysconf(_SC_OPEN_MAX); x >= 0; x--) close (x);
 
     /* Open the log file */
     openlog("Health-Check-API", LOG_PID, LOG_DAEMON);
