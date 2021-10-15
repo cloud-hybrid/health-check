@@ -11,10 +11,17 @@
         "destroy": "make clean",
         "generate-pfx": "bash .ci/PFX.Source Development"
     },
-    "engines": { "node": "^16.x", "npm": "^7.x" },
+    "engines": {
+        "node": "^16.x",
+        "npm": "^7.x"
+    },
     "engineStrict": false,
     "license": "BSD-3-Clause",
     "type": "module",
-    "exports": [ "./Index.js" ],
-    "maintainers": [ "Jacob B. Sanders" ]
+    "exports": [
+        "./Index.js"
+    ],
+    "maintainers": [
+        "Jacob B. Sanders"
+    ]
 }
