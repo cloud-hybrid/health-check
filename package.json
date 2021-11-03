@@ -5,7 +5,7 @@
     "main": "Index.js",
     "scripts": {
         "start": "node Index.js",
-        "process": "lsof -nP -iTCP -sTCP:LISTEN | grep 8443",
+        "process": "lsof -nP -iTCP -sTCP:LISTEN | grep 8443 | awk '{ print $2 }'",
         "daemon": "daemon/build/Health-Check-Daemon",
         "compile": "make",
         "destroy": "make clean",
